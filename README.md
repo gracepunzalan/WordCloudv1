@@ -1,0 +1,131 @@
+# WordCloudv1
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Word Cloud </title>
+        <script type="text/javascript" src="../d3/d3.v3.js"></script>
+
+	<style type="text/css">
+	  
+	</style>
+    </head>
+
+    <body>
+      <h1> Word Cloud </h1>
+      <script type = "text/javascript">
+
+	
+	var w = 1000, h = 800, margin = 50;
+	var dataset = [{word: "a_M",value: 10},{word: "b", value: 50},
+	               {word: "c_M",value: 30},{word: "d", value: 35}, 
+	               {word: "e_M",value: 100},{word: "f", value: 20},
+	               {word: "g_M",value: 45},{word: "h", value: 25},
+	               {word: "i_M",value: 145},{word: "j", value: 80},
+	               {word: "a_M",value: 10},{word: "b", value: 50},
+	               {word: "c_M",value: 30},{word: "d", value: 35}, 
+	               {word: "e_M",value: 100},{word: "f", value: 20},
+	               {word: "g_M",value: 45},{word: "h", value: 25},
+	               {word: "i_M",value: 145},{word: "j", value: 80},
+	               {word: "a_M",value: 10},{word: "b", value: 50},
+	               {word: "c_M",value: 30},{word: "d", value: 35}, 
+	               {word: "e_M",value: 100},{word: "f", value: 20},
+	               {word: "g_M",value: 45},{word: "h", value: 25},
+	               {word: "i_M",value: 145},{word: "j", value: 80},
+	               {word: "a_M",value: 10},{word: "b", value: 50},
+	               {word: "c_M",value: 30},{word: "d", value: 35}, 
+	               {word: "e_M",value: 100},{word: "f", value: 20},
+	               {word: "g_M",value: 45},{word: "h", value: 25},
+	               {word: "i_M",value: 145},{word: "j", value: 80},
+	               {word: "a_M",value: 10},{word: "b", value: 50},
+	               {word: "c_M",value: 30},{word: "d", value: 35}, 
+	               {word: "e_M",value: 100},{word: "f", value: 20},
+	               {word: "g_M",value: 45},{word: "h", value: 25},
+	               {word: "i_M",value: 145},{word: "j", value: 80},
+	               {word: "a_M",value: 10},{word: "b", value: 50},
+	               {word: "c_M",value: 30},{word: "d", value: 35}, 
+	               {word: "e_M",value: 100},{word: "f", value: 20},
+	               {word: "g_M",value: 45},{word: "h", value: 25},
+	               {word: "i_M",value: 145},{word: "j", value: 80}];
+
+	var rScale = d3.scale.linear()
+	               .domain([0, d3.max(dataset, function(d) {return d.value;})])
+	               .range([0, 60]);
+
+	var newdata = dataset.map(function(d) {
+	    var type;
+	    var check = d.word.substring(d.word.length-2, d.word.length);
+	    if(check == "_M"){
+	        type = "moral";
+	    }
+	    else{
+	       type = "general";
+	    }
+	 
+	    return { 
+	      word: d.word,
+	      class: type,
+	      value: d.value, 
+	      x: (Math.random() * 850) + margin,
+	      y: (Math.random() * 550) + margin
+	    }
+	;});
+
+       	//alert(newdata[1].class); //works
+
+	var data = {name: "root", children: newdata};
+
+	var nodes = d3.layout.pack()
+	             .sort(d3.descending)
+	             .value(function(d) {return d.value;})
+	             .size([w, h])
+	             .nodes(data);
+
+	nodes.shift();
+
+	var svg = d3.select("body").append("svg")
+	            .attr("width", w)
+	            .attr("height", h);
+
+	svg.selectAll(".node").data(nodes)
+	   .enter().append("circle")
+	   .attr("class", "node")
+	   .attr("cx", function(d) {return d.x;})
+	   .attr("cy", function(d) {return d.y;})
+	   .attr("r", function(d) {return rScale(d.value);})
+	   .attr("fill", function(d) { 
+	        if(d.class =="moral"){return "green";}
+	        else { return "none";}
+	   })
+	   .attr("opacity", .5)
+	   .attr("stroke","black")
+	   .attr("stroke-width", "2px");
+	   
+
+/*	svg.selectAll("circle").data(newdata)
+	   .enter()
+	   .append("circle")
+	   .attr("cx", function(d) {return d.x;})
+	   .attr("cy", function(d) {return d.y;})
+	   .attr("r", function(d) {return rScale(d.value);})
+	   .attr("fill", function(d) { 
+	        if(d.class =="moral"){return "green";}
+	        else { return "none";}
+	   })
+	   .attr("opacity", .5)
+	   .attr("stroke","black")
+	   .attr("stroke-width", "2px");
+	   
+*/
+	
+
+
+      
+
+
+
+      </script>
+    </body>
+</html>
+
